@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import * as Location from "expo-location"
+import {Text, View, StyleSheet} from 'react-native';
 import Constants from 'expo-constants';
 
 export default function App() {
@@ -20,3 +21,26 @@ const styles = StyleSheet.create({
     padding: 8,
   }
 });
+
+const requestLocationPermission = async () => {
+    try {
+        const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSION.LOCATION,
+            {
+                title: 'Location Permission Request',
+                message: 'Allow The App To Have Access To Your Location To Display The Weather.',
+                buttonNeutral: 'Ask Me Later',
+                buttonNegative: 'Cancel',
+                buttonPositive: 'OK',
+            },
+        };
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log('Location Granted');
+        } else {
+            console.log('Permission Denied');
+            return;
+        }
+    } catch (err) {
+        return;
+    }
+};
